@@ -113,7 +113,7 @@ describe('BudgetLimitStrategy (Feature 1)', () => {
 
     expect(result).toContain('Food');
     expect(result).toContain('Overage: $4900.00');
-    expect(result).toContain('Precentage over budget: $4900.00%'); // Check if result contains percentage over budget
+    expect(result).toContain('Percentage over budget: $4900.00%'); // Check if result contains percentage over budget
   });
 
   // it.todo('should list the specific transactions contributing to categories that are over budget',);
