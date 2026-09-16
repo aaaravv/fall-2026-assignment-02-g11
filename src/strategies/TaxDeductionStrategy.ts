@@ -30,7 +30,7 @@ export class TaxDeductionStrategy implements AuditStrategy {
     let report = "";
 
     report += `Eligible Transctions:\n`;
-    eligible_arr.forEach((exp) => report += `ID:  ${exp.id}, Amount: $${Math.abs(exp.amount)}\n`);
+    eligible_arr.forEach((exp) => report += `ID: ${exp.id}, Amount: $${Math.abs(exp.amount)}\n`);
 
     report += `\nTotal Value of Deductible Transactions: $${total_deductible}\n`;
     report += `Estimated Tax Savings: $${savings}\n`;
