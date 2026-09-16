@@ -178,13 +178,12 @@ describe('BudgetLimitStrategy (Feature 1)', () => {
   });
 
   //   it.todo('should handle empty transaction list gracefully');
-  //   it('should handle empty transaction list gracefully', async () => {
-  //     const mockBudgets = { Food: 100, Rent: 1000 };
+     it('should handle empty transaction list gracefully', async () => {
+       const mockBudgets = { Food: 100, Rent: 1000 };
+       vi.spyOn(BudgetService, 'getCategoryBudgets').mockResolvedValue(mockBudgets);
 
-  //     vi.spyOn(BudgetService, 'getCategoryBudgets').mockResolvedValue(mockBudgets);
+       const result = await strategy.execute([]); // Execute test strategy
 
-  //     const result = await strategy.execute([]); // Execute test strategy
-
-  //     expect(result).toContain('No transactions'); // Check if result contains no transactions found message
-  //   });
+       expect(result).toContain('No transactions'); // Check if result contains no transactions found message
+     });
 });
