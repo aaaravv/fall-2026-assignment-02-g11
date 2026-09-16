@@ -29,5 +29,9 @@ export class TaxDeductionStrategy implements AuditStrategy {
     // 6. Format and return a text-based audit report detailing total deductions, savings, VAT estimates, and eligible transactions.
     let report = "";
 
+    report += `Eligible Transctions:\n=====================\n`;
+    eligible_arr.forEach((exp) => report += `ID:  ${exp.id}, Amount: $${Math.abs(exp.amount)}\n`);
+    
+    return report;
   }
 }
