@@ -11,7 +11,6 @@ export class BudgetLimitStrategy implements AuditStrategy {
     transactions: Transaction[],
     customParam?: string,
   ): Promise<string> {
-    // TODO: Feature 1 - Implement this strategy.
 
     // 1. Call BudgetService.getCategoryBudgets() asynchronously.
     const categoryBudgets = await BudgetService.getCategoryBudgets(); // Fetches budget data for each category
