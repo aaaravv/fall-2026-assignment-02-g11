@@ -11,7 +11,6 @@ export class BudgetLimitStrategy implements AuditStrategy {
     transactions: Transaction[],
     customParam?: string,
   ): Promise<string> {
-    // TODO: Feature 1 - Implement this strategy.
 
     // 1. Call BudgetService.getCategoryBudgets() asynchronously.
     const categoryBudgets = await BudgetService.getCategoryBudgets(); // Fetches budget data for each category
@@ -60,7 +59,7 @@ export class BudgetLimitStrategy implements AuditStrategy {
         `Budget Limit: $${limit.toFixed(2)}`,
         `Actual Spending: $${spent.toFixed(2)}`,
         `Overage: $${overage.toFixed(2)}`,
-        `Precentage over budget: $${percentage.toFixed(2)}%`,
+        `Percentage over budget: $${percentage.toFixed(2)}%`,
         `Transactions causing overage: `,
       );
 
