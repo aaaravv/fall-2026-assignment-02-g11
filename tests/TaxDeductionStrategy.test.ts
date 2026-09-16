@@ -94,7 +94,7 @@ describe('TaxDeductionStrategy (Feature 4)', () => {
     const spy =  vi.spyOn(TaxConfigService, "getTaxConfig").mockResolvedValue(mockConfig);
 
     const testTransactions: Transaction[] = [
-       { id: '1', date: '2026-05-01', amount: -200.00, category: 'Medical', description: 'Charity', status: 'completed' }, // Non-Deductible
+       { id: '1', date: '2026-05-01', amount: -200.00, category: 'Medical', description: 'Medicine', status: 'completed' }, // Non-Deductible
        { id: '2', date: '2026-05-02', amount: -100.00, category: 'Charity', description: 'Charity', status: 'completed' }, // Deductible
      ];
 
@@ -104,7 +104,7 @@ describe('TaxDeductionStrategy (Feature 4)', () => {
     expect(result).toContain("Eligible Transactions:");
     expect(result).toContain("ID: 2, Amount: $100, Category: Charity");
     
-    expect(result).toContain("Total Value of Deductible Transactions: $10");
+    expect(result).toContain("Total Value of Deductible Transactions: $100");
     expect(result).toContain("Estimated Tax Savings: $10");
 
     expect(result).toContain("Estimated Sales Tax (VAT): $20");
@@ -148,4 +148,21 @@ describe('TaxDeductionStrategy (Feature 4)', () => {
   );
   
   //Test 3: No deductible categories
+  it('should handle no deductible categories without failing', async() => {
+      const mockConfig = {standardTaxRate: 0.10, deductibleCategories: []};
+      const spy =  vi.spyOn(TaxConfigService, "getTaxConfig").mockResolvedValue(mockConfig);
+
+      const testTransactions: Transaction[] = [
+        { id: '1', date: '2026-05-01', amount: -200.00, category: 'Medical', description: 'Charity', status: 'completed' }, // Non-Deductible
+        { id: '2', date: '2026-05-02', amount: -100.00, category: 'Charity', description: 'Charity', status: 'completed' }, // Deductible
+      ];
+
+      const result = await strategy.execute(testTransactions);
+      
+      expect(spy).toHaveBeenCalled();
+      expect(result).toContain("Total Value of Deductible Transactions: $0");
+    
+    }
+    );
+
 });

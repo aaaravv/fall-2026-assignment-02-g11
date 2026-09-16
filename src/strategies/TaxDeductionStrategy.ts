@@ -21,7 +21,7 @@ export class TaxDeductionStrategy implements AuditStrategy {
 
     // 2. Filter expenses (amount < 0) that belong to eligible tax-deductible categories.
     let eligible_arr: Transaction[] = transactions.filter((action) => action.amount < 0 && config.deductibleCategories.includes(action.category));
-    let in_eligible_arr: Transaction[] = transactions.filter((action) => action.amount >= 0 || !config.deductibleCategories.includes(action.category));
+    let in_eligible_arr: Transaction[] = transactions.filter((action) => action.amount < 0 && !config.deductibleCategories.includes(action.category));
  
     // 3. Sum total deductible expenses.
     let total_deductible = eligible_arr.reduce((sum, action) => sum + Math.abs(action.amount), 0);
