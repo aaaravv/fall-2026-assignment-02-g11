@@ -59,7 +59,7 @@ export class BudgetLimitStrategy implements AuditStrategy {
         `Budget Limit: $${limit.toFixed(2)}`,
         `Actual Spending: $${spent.toFixed(2)}`,
         `Overage: $${overage.toFixed(2)}`,
-        `Precentage over budget: $${percentage.toFixed(2)}%`,
+        `Percentage over budget: $${percentage.toFixed(2)}%`,
         `Transactions causing overage: `,
       );
 
