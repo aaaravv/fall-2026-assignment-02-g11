@@ -101,7 +101,7 @@ describe('TaxDeductionStrategy (Feature 4)', () => {
     const result = await strategy.execute(testTransactions);
     
     expect(spy).toHaveBeenCalled();
-    expect(result).toContain("Eligible Transctions:");
+    expect(result).toContain("Eligible Transactions:");
     expect(result).toContain("ID: 2, Amount: $100, Category: Charity");
     
     expect(result).toContain("Total Value of Deductible Transactions: $10");
@@ -113,4 +113,39 @@ describe('TaxDeductionStrategy (Feature 4)', () => {
   );
 
   //aarav test for incorrect data input
+  // Test 1: Empty transactions
+  it('should display a message when transactions are empty', async() => {
+    const mockConfig = {standardTaxRate: 0.10, deductibleCategories: ['Charity']};
+    const spy =  vi.spyOn(TaxConfigService, "getTaxConfig").mockResolvedValue(mockConfig);
+
+    const testTransactions: Transaction[] = [];
+
+    const result = await strategy.execute(testTransactions);
+
+    expect(result).toEqual("No transactions found");
+
+  });
+
+  //Test 2: 0% tax rate
+  it('0 percent tax rate should 0 tax paid and 0 tax saved', async() => {
+    const mockConfig = {standardTaxRate: 0.0, deductibleCategories: ['Charity']};
+    const spy =  vi.spyOn(TaxConfigService, "getTaxConfig").mockResolvedValue(mockConfig);
+
+    const testTransactions: Transaction[] = [
+       { id: '1', date: '2026-05-01', amount: -200.00, category: 'Medical', description: 'Charity', status: 'completed' }, // Non-Deductible
+       { id: '2', date: '2026-05-02', amount: -100.00, category: 'Charity', description: 'Charity', status: 'completed' }, // Deductible
+     ];
+
+    const result = await strategy.execute(testTransactions);
+    
+    expect(spy).toHaveBeenCalled();
+    expect(result).toContain("ID: 2, Amount: $100, Category: Charity");
+    expect(result).toContain("Total Value of Deductible Transactions: $100");
+    expect(result).toContain("Estimated Tax Savings: $0");
+    expect(result).toContain("Estimated Sales Tax (VAT): $0");
+  
+  }
+  );
+  
+  //Test 3: No deductible categories
 });

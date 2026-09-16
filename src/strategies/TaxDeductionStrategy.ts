@@ -14,6 +14,11 @@ export class TaxDeductionStrategy implements AuditStrategy {
     // TODO: Feature 4 - Implement this strategy.
     // 1. Call TaxConfigService.getTaxConfig() asynchronously.
     let config: TaxConfig = await TaxConfigService.getTaxConfig();
+
+    if(transactions.length == 0){
+      return "No transactions found";
+    };
+
     // 2. Filter expenses (amount < 0) that belong to eligible tax-deductible categories.
     let eligible_arr: Transaction[] = transactions.filter((action) => action.amount < 0 && config.deductibleCategories.includes(action.category));
     let in_eligible_arr: Transaction[] = transactions.filter((action) => action.amount >= 0 || !config.deductibleCategories.includes(action.category));
@@ -29,8 +34,8 @@ export class TaxDeductionStrategy implements AuditStrategy {
     // 6. Format and return a text-based audit report detailing total deductions, savings, VAT estimates, and eligible transactions.
     let report = "";
 
-    report += `Eligible Transctions:\n`;
-    eligible_arr.forEach((exp) => report += `ID: ${exp.id}, Amount: $${Math.abs(exp.amount)}\n`);
+    report += `Eligible Transactions:\n`;
+    eligible_arr.forEach((exp) => report += `ID: ${exp.id}, Amount: $${Math.abs(exp.amount)}, Category: ${exp.category}\n`);
 
     report += `\nTotal Value of Deductible Transactions: $${total_deductible}\n`;
     report += `Estimated Tax Savings: $${savings}\n`;
